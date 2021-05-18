@@ -137,7 +137,7 @@ def only_on_soundbars(function):
     def inner_function(self, *args, **kwargs):
         if not self.is_soundbar:
             raise NotSupportedException(
-                f"The device is not a soundbar and doesn't support {function.__name__}."
+                "The device is not a soundbar and doesn't support %s." % function.__name__
             )
 
         return function(self, *args, **kwargs)
@@ -999,7 +999,12 @@ class SoCo(_SocoSingletonBase):
     @surround_mode_music_playback.setter
     @only_on_soundbars
     def surround_mode_music_playback(self, value: int):
-        """
+        """Set the music playback mode (ambient, full volume) for the music surround playback.
+
+        Note: this does not apply to the TV mode.
+
+        TODO: enumize this?
+
         0: ambient
         1: full
         """
@@ -1016,7 +1021,7 @@ class SoCo(_SocoSingletonBase):
     @surround_volume_tv.setter
     @only_on_soundbars
     def surround_volume_tv(self, relative_volume: int):
-        """Set the relative volume [-15,15} for surround speakers in the TV mode."""
+        """Set the relative volume [-15,15] for surround speakers in the TV mode."""
         if not -15 <= relative_volume <= 15:
             raise ValueError("Value must be [-15, 15]")
 
@@ -1033,7 +1038,7 @@ class SoCo(_SocoSingletonBase):
     @surround_volume_music.setter
     @only_on_soundbars
     def surround_volume_music(self, relative_volume: int):
-        """Set the relative volume [-15,15} for surround speakers in the music mode."""
+        """Set the relative volume [-15,15] for surround speakers in the music mode."""
         if not -15 <= relative_volume <= 15:
             raise ValueError("Value must be [-15, 15]")
 
